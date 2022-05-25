@@ -15,9 +15,9 @@
       <button type="button" :disabled="busy" title="Remover" @click="confirmDelete = true">
         <img src="../assets/icon-delete.svg">
       </button>
-      <button type="button" :disabled="busy" title="Detalhes">
+      <router-link :disabled="busy" title="Detalhes" :to="`/user/${user.id}`">
         <img src="../assets/icon-view.svg">
-      </button>
+      </router-link>
     </div>
     <div class="flex col space-between align-center" v-else>
       <p>Excluir?</p>
@@ -117,7 +117,7 @@ button {
   transition: filter 100ms ease-in;
 }
 
-button+button {
+button+button, button+a {
   margin-left: 12px;
 }
 

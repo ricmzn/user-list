@@ -9,8 +9,6 @@ h1 {
 }
 
 body {
-    margin: 56px auto;
-    max-width: 580px;
     font-weight: 600;
 }
 
@@ -19,7 +17,8 @@ body, button, input, select {
     letter-spacing: 0.2px;
 }
 
-button.action {
+button.action, a.action {
+    text-decoration: none;
     font-weight: 600;
     font-size: 15px;
     text-align: center;
@@ -33,29 +32,37 @@ button.action {
     transition: background 100ms ease-in;
 }
 
-button.action:disabled, button.action:disabled:hover {
+button.action:disabled,
+button.action:disabled:hover,
+a.action.disabled,
+a.action.disabled:hover {
     background: #aaa;
     cursor: default;
 }
 
-button.action:hover {
+button.action:hover,
+a.action:hover {
     background: #333;
 }
 
-button.action:active {
+button.action:active,
+a.action:active {
     background: black;
 }
 
-button.secondary {
+button.secondary,
+a.secondary {
     background: #f7f7f7;
     color: black;
 }
 
-button.secondary:hover {
+button.secondary:hover,
+a.secondary:hover {
     background: #eee;
 }
 
-button.secondary:active {
+button.secondary:active,
+a.secondary:hover {
     background: #ddd;
 }
 

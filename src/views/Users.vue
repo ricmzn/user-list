@@ -1,13 +1,15 @@
 <template>
-  <header class="flex row space-between align-center">
-    <h1>Usuários</h1>
-    <button v-if="editTarget == null" class="action" :disabled="busy" @click="editUser()">Novo usuário</button>
-    <button v-else class="action secondary" @click="editTarget = undefined">Cancelar</button>
-  </header>
-  <UserEdit v-if="editTarget != null" :user="editTarget" :key="editTarget.id" @confirm="(name, job) => handleUserChange(editTarget?.id ?? null, name, job)" />
-  <main>
-    <UserCard v-for="user in users" :user="user" :key="user?.id" :busy="busy" @request-edit="(user) => editUser(user ?? undefined)" @request-delete="(id) => deleteUser(id)" />
-  </main>
+  <div class="container">
+    <header class="flex row space-between align-center">
+      <h1>Usuários</h1>
+      <button v-if="editTarget == null" class="action" :disabled="busy" @click="editUser()">Novo usuário</button>
+      <button v-else class="action secondary" @click="editTarget = undefined">Cancelar</button>
+    </header>
+    <UserEdit v-if="editTarget != null" :user="editTarget" :key="editTarget.id" @confirm="(name, job) => handleUserChange(editTarget?.id ?? null, name, job)" />
+    <main>
+      <UserCard v-for="user in users" :user="user" :key="user?.id" :busy="busy" @request-edit="(user) => editUser(user ?? undefined)" @request-delete="(id) => deleteUser(id)" />
+    </main>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -18,6 +20,7 @@ import UserCard from "../components/UserCard.vue";
 import UserEdit from "../components/UserEdit.vue";
 import Reqres, { type ReqresUser } from "../reqres";
 
+// Permite enviar notificações ao nível global da aplicação
 const notifications = inject(notificationKey);
 
 const users = ref<Array<ReqresUser | null>>([
@@ -33,6 +36,7 @@ onBeforeMount(async () => {
     .then((response) => response.data)
     .catch((err) => {
       notifications?.push("error", `Erro ao buscar usuários: ${err.message}`);
+      users.value = [];
       throw err;
     });
 });
@@ -133,3 +137,10 @@ async function deleteUser(id: number) {
   }
 }
 </script>
+
+<style scoped>
+.container {
+  margin: 56px auto;
+  max-width: 580px;
+}
+</style>

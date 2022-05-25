@@ -1,11 +1,3 @@
-export interface ReqresList<T> {
-  page: number;
-  per_page: number;
-  total: number;
-  total_pages: number;
-  data: T[];
-}
-
 export interface ReqresUser {
   id: number;
   email: string;
@@ -13,6 +5,22 @@ export interface ReqresUser {
   last_name: string;
   avatar: string;
   job?: string;
+}
+
+export interface ReqresUserListResponse {
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+  data: ReqresUser[];
+}
+
+export interface ReqresUserResponse {
+  data: ReqresUser;
+  support: {
+    url: string;
+    text: string;
+  }
 }
 
 export interface ReqresUserPartial {
@@ -52,8 +60,12 @@ export default class Reqres {
     }
   }
 
-  static async listUsers(): Promise<ReqresList<ReqresUser>> {
+  static async listUsers(): Promise<ReqresUserListResponse> {
     return Reqres.request("users");
+  }
+
+  static async getUser(id: number): Promise<ReqresUserResponse> {
+    return Reqres.request(`users/${id}`);
   }
 
   static async addUser(user: ReqresUserPartial): Promise<ReqresUserPostResponse> {
