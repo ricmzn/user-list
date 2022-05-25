@@ -10,13 +10,13 @@
     </div>
     <div>
       <button type="button" title="Editar">
-        <img src="icon-edit.svg">
+        <img src="../assets/icon-edit.svg">
       </button>
       <button type="button" title="Remover">
-        <img src="icon-delete.svg">
+        <img src="../assets/icon-delete.svg">
       </button>
       <button type="button" title="Detalhes">
-        <img src="icon-view.svg">
+        <img src="../assets/icon-view.svg">
       </button>
     </div>
   </article>
@@ -31,13 +31,13 @@
     </div>
     <div>
       <button type="button">
-        <img src="icon-edit.svg">
+        <img src="../assets/icon-edit.svg">
       </button>
       <button type="button">
-        <img src="icon-delete.svg">
+        <img src="../assets/icon-delete.svg">
       </button>
       <button type="button">
-        <img src="icon-view.svg">
+        <img src="../assets/icon-view.svg">
       </button>
     </div>
   </article>
