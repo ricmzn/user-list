@@ -15,12 +15,8 @@ export interface ReqresUser {
 }
 
 export class ReqresError extends Error {
-  constructor(private response: Response, private resolvedJson: { error?: string }) {
-    super(response.statusText);
-  }
-
-  get message() {
-    return this.resolvedJson.error || this.response.statusText;
+  constructor(private response: Response, private resolvedJson?: { error: string }) {
+    super(resolvedJson?.error || `${response.status} ${response.statusText}`);
   }
 
   get status() {
@@ -34,7 +30,11 @@ export default class Reqres {
     if (res.ok) {
       return res.json();
     } else {
-      throw new ReqresError(res, await res.json());
+      if (res.headers.get("Content-Type") === "application/json") {
+        throw new ReqresError(res, await res.json());
+      } else {
+        throw new ReqresError(res);
+      }
     }
   }
 
