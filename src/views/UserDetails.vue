@@ -6,7 +6,7 @@
     </div>
     <template v-if="user != null">
       <div class="flex row space-around align-center">
-        <img src="https://reqres.in/img/faces/1-image.jpg">
+        <img :src="user.data.avatar">
         <div class="field">
           <h2>Primeiro nome</h2>
           <div>{{ user.data.first_name }}</div>
