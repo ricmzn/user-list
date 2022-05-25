@@ -9,13 +9,13 @@
       <footer>{{ user.email }}</footer>
     </div>
     <div>
-      <button type="button" title="Editar" @click="() => emit('requestEdit', user!)">
+      <button type="button" :disabled="busy" title="Editar" @click="() => emit('requestEdit', user!)">
         <img src="../assets/icon-edit.svg">
       </button>
-      <button type="button" title="Remover">
+      <button type="button" :disabled="busy" title="Remover">
         <img src="../assets/icon-delete.svg">
       </button>
-      <button type="button" title="Detalhes">
+      <button type="button" :disabled="busy" title="Detalhes">
         <img src="../assets/icon-view.svg">
       </button>
     </div>
@@ -47,7 +47,8 @@
 import type { ReqresUser } from "@/reqres";
 
 const { user } = defineProps<{
-  user: ReqresUser | null
+  user: ReqresUser | null,
+  busy?: boolean,
 }>();
 
 const emit = defineEmits<{
@@ -114,7 +115,7 @@ button:active {
 }
 
 /* Estilos do wireframe */
-.wireframe button {
+.wireframe button, button:disabled {
   filter: brightness(175%);
   cursor: default;
 }

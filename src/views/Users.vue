@@ -1,12 +1,12 @@
 <template>
   <header class="flex row space-between align-center">
     <h1>Usuários</h1>
-    <button v-if="!editTarget" class="action" :disabled="!loaded" @click="editUser()">Novo usuário</button>
+    <button v-if="editTarget == null" class="action" :disabled="busy" @click="editUser()">Novo usuário</button>
     <button v-else class="action secondary" @click="editTarget = undefined">Cancelar</button>
   </header>
-  <UserEdit v-if="editTarget" :user="editTarget" :key="editTarget.id" @confirm="(name, job) => confirmEdit(editTarget?.id ?? null, name, job)" />
+  <UserEdit v-if="editTarget != null" :user="editTarget" :key="editTarget.id" @confirm="(name, job) => confirmEdit(editTarget?.id ?? null, name, job)" />
   <main>
-    <UserCard v-for="user in users" :user="user" :key="user?.id" @request-edit="(user) => editUser(user ?? undefined)" />
+    <UserCard v-for="user in users" :user="user" :key="user?.id" :busy="busy" @request-edit="(user) => editUser(user ?? undefined)" />
   </main>
 </template>
 
@@ -37,9 +37,9 @@ onBeforeMount(async () => {
     });
 });
 
-// A aplicação está pronta para uso?
-const loaded = computed(() => {
-  return users.value.every((user) => user != null);
+// A aplicação está aguardando algum procedimento?
+const busy = computed(() => {
+  return users.value.findIndex((user) => user == null) >= 0;
 });
 
 // Remove todos os wireframes (usuários nulos)
@@ -70,12 +70,13 @@ async function confirmEdit(id: number | null, name: string, job: string) {
 async function createUser(name: string, job: string) {
   const random = md5(Math.random().toString());
   users.value.push(null);
-  // Move a tela ao final da lista (após rodar event loop até o fim)
+  // Move a tela para o final da lista (após rodar event loop até o fim)
   setTimeout(() => window.scrollTo(window.scrollX, document.body.scrollHeight));
   try {
     const newUser = await Reqres.addUser({ name, job });
     users.value.push({
       id: newUser.id,
+      job: newUser.job,
       email: newUser.job,
       first_name: newUser.name,
       last_name: "",
@@ -98,6 +99,7 @@ async function updateUser(id: number, name: string, job: string) {
     const newUser = await Reqres.updateUser(id, { name, job });
     users.value.splice(index, 0, {
       id: oldUser.id,
+      job: newUser.job,
       email: newUser.job,
       first_name: newUser.name,
       last_name: "",
