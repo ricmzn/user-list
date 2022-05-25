@@ -20,7 +20,7 @@
       </router-link>
     </div>
     <div class="flex col space-between align-center" v-else>
-      <p>Excluir?</p>
+      <p>Remover?</p>
       <div>
         <button type="button" class="delete" :disabled="busy" @click="() => emit('requestDelete', user?.id!)">
           Sim
