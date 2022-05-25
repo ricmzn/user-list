@@ -1,0 +1,75 @@
+* {
+    box-sizing: border-box;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 50px;
+    margin: 40px 20px 40px 0;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    margin: 56px auto;
+    max-width: 580px;
+}
+
+button.action {
+    font-size: 15px;
+    background: black;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    padding: 18px 40px;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: background 100ms ease-in;
+}
+
+button.action:hover {
+    background: #333;
+}
+
+button.action:active {
+    background: black;
+}
+
+button.secondary {
+    background: #f7f7f7;
+    color: black;
+}
+
+.flex {
+    display: flex;
+    min-width: 0;
+}
+
+.col {
+    flex-direction: column;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.expand {
+    flex-grow: 1;
+}
+
+.align-start {
+    align-items: flex-start;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.space-around {
+    justify-content: space-around;
+}
