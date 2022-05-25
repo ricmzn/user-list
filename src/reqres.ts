@@ -46,7 +46,7 @@ export class ReqresError extends Error {
 
 export default class Reqres {
   static async request(path: string, options?: RequestInit) {
-    const res = await fetch(`https://reqres.in/api/${path}?delay=2`, options);
+    const res = await fetch(`https://reqres.in/api/${path}`, options);
     if (res.ok) {
       if (res.headers.get("Content-Type")?.includes("json")) {
         return res.json();
