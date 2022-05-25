@@ -124,6 +124,9 @@ async function deleteUser(id: number) {
   if (index < 0) {
     return;
   }
+  if (id === editTarget?.value?.id) {
+    editTarget.value = undefined;
+  }
   const oldUser = users.value[index]!;
   users.value.splice(index, 1, null);
   try {
