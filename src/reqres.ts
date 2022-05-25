@@ -40,9 +40,11 @@ export default class Reqres {
   static async request(path: string, options?: RequestInit) {
     const res = await fetch(`https://reqres.in/api/${path}?delay=2`, options);
     if (res.ok) {
-      return res.json();
+      if (res.headers.get("Content-Type")?.includes("json")) {
+        return res.json();
+      }
     } else {
-      if (res.headers.get("Content-Type") === "application/json") {
+      if (res.headers.get("Content-Type")?.includes("json")) {
         throw new ReqresError(res, await res.json());
       } else {
         throw new ReqresError(res);
@@ -68,5 +70,9 @@ export default class Reqres {
       ...user,
       ...await Reqres.request(`users/${id}`, { method: "PUT", body: JSON.stringify(user) }),
     };
+  }
+
+  static async deleteUser(id: number): Promise<void> {
+    return Reqres.request(`users/${id}`, { method: "DELETE" });
   }
 }

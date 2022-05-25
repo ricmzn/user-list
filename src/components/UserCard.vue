@@ -8,16 +8,27 @@
       <h2>{{ user.first_name }} {{ user.last_name }}</h2>
       <footer>{{ user.email }}</footer>
     </div>
-    <div>
+    <div v-if="!confirmDelete">
       <button type="button" :disabled="busy" title="Editar" @click="() => emit('requestEdit', user!)">
         <img src="../assets/icon-edit.svg">
       </button>
-      <button type="button" :disabled="busy" title="Remover">
+      <button type="button" :disabled="busy" title="Remover" @click="confirmDelete = true">
         <img src="../assets/icon-delete.svg">
       </button>
       <button type="button" :disabled="busy" title="Detalhes">
         <img src="../assets/icon-view.svg">
       </button>
+    </div>
+    <div class="flex col space-between align-center" v-else>
+      <p>Excluir?</p>
+      <div>
+        <button type="button" class="delete" :disabled="busy" @click="() => emit('requestDelete', user?.id!)">
+          Sim
+        </button>
+        <button type="button" class="cancel" :disabled="busy" @click="confirmDelete = false">
+          Não
+        </button>
+      </div>
     </div>
   </article>
   <!-- Wireframe -->
@@ -45,14 +56,18 @@
 
 <script setup lang="ts">
 import type { ReqresUser } from "@/reqres";
+import { ref } from "vue";
 
-const { user } = defineProps<{
+const { user, busy } = defineProps<{
   user: ReqresUser | null,
   busy?: boolean,
 }>();
 
+const confirmDelete = ref(false);
+
 const emit = defineEmits<{
   (e: "requestEdit", user: ReqresUser): void,
+  (e: "requestDelete", id: number): void,
 }>();
 </script>
 
@@ -114,8 +129,31 @@ button:active {
   filter: brightness(150%);
 }
 
+button.delete,
+button.cancel {
+  color: white;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+button.delete {
+  background: rgb(210, 4, 4);
+}
+
+button.cancel {
+  background: rgb(85, 85, 85);
+  margin-left: 8px;
+}
+
+button.delete:disabled,
+button.cancel:disabled {
+  filter: grayscale(50%) brightness(175%) contrast(50%);
+}
+
 /* Estilos do wireframe */
-.wireframe button, button:disabled {
+.wireframe button,
+button:disabled {
   filter: brightness(175%);
   cursor: default;
 }

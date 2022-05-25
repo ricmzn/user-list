@@ -4,9 +4,9 @@
     <button v-if="editTarget == null" class="action" :disabled="busy" @click="editUser()">Novo usuário</button>
     <button v-else class="action secondary" @click="editTarget = undefined">Cancelar</button>
   </header>
-  <UserEdit v-if="editTarget != null" :user="editTarget" :key="editTarget.id" @confirm="(name, job) => confirmEdit(editTarget?.id ?? null, name, job)" />
+  <UserEdit v-if="editTarget != null" :user="editTarget" :key="editTarget.id" @confirm="(name, job) => handleUserChange(editTarget?.id ?? null, name, job)" />
   <main>
-    <UserCard v-for="user in users" :user="user" :key="user?.id" :busy="busy" @request-edit="(user) => editUser(user ?? undefined)" />
+    <UserCard v-for="user in users" :user="user" :key="user?.id" :busy="busy" @request-edit="(user) => editUser(user ?? undefined)" @request-delete="(id) => deleteUser(id)" />
   </main>
 </template>
 
@@ -42,7 +42,7 @@ const busy = computed(() => {
   return users.value.findIndex((user) => user == null) >= 0;
 });
 
-// Remove todos os wireframes (usuários nulos)
+// Remove todos os wireframes (usuários nulos) temporários
 function clearWireframes() {
   users.value = users.value.filter((user) => user != null);
 }
@@ -57,7 +57,7 @@ async function editUser(user?: ReqresUser) {
 }
 
 // Verifica se o usuário deve ser editado ou criado
-async function confirmEdit(id: number | null, name: string, job: string) {
+async function handleUserChange(id: number | null, name: string, job: string) {
   editTarget.value = undefined;
   if (id != null) {
     updateUser(id, name, job);
@@ -105,6 +105,29 @@ async function updateUser(id: number, name: string, job: string) {
       last_name: "",
       avatar: oldUser.avatar,
     });
+  } catch (err) {
+    // Restaura o usuário anterior
+    users.value.splice(index, 0, oldUser);
+    throw err;
+  } finally {
+    clearWireframes();
+  }
+}
+
+// Exclui o usuário
+async function deleteUser(id: number) {
+  const index = users.value.findIndex((user) => user?.id === id);
+  if (index < 0) {
+    return;
+  }
+  const oldUser = users.value[index]!;
+  users.value.splice(index, 1, null);
+  try {
+    await Reqres.deleteUser(id);
+  } catch (err) {
+    // Restaura o usuário anterior
+    users.value.splice(index, 0, oldUser);
+    throw err;
   } finally {
     clearWireframes();
   }
