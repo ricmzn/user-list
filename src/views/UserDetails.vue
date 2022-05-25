@@ -9,29 +9,29 @@
         <img :src="user.data.avatar">
         <div class="field">
           <h2>Primeiro nome</h2>
-          <div>{{ user.data.first_name }}</div>
+          <p>{{ user.data.first_name }}</p>
         </div>
         <div class="field">
           <h2>Último nome</h2>
-          <div>{{ user.data.last_name }}</div>
+          <p>{{ user.data.last_name }}</p>
         </div>
         <span class="expand"></span>
       </div>
       <div class="field">
         <h2>Endereço de e-mail</h2>
-        <div>{{ user.data.email }}</div>
+        <p>{{ user.data.email }}</p>
       </div>
       <div class="field">
         <h2>Link do avatar</h2>
-        <div>{{ user.data.avatar }}</div>
+        <a :href="user.data.avatar" target="_blank">{{ user.data.avatar }}</a>
       </div>
       <div class="field">
         <h2>Link de suporte</h2>
-        <div>{{ user.support.url }}</div>
+        <a :href="user.support.url" target="_blank">{{ user.support.url }}</a>
       </div>
       <div class="field">
         <h2>Descrição do usuário</h2>
-        <div>{{ user.support.text }}</div>
+        <p>{{ user.support.text }}</p>
       </div>
     </template>
     <div v-else-if="loading">Carregando...</div>
@@ -98,7 +98,12 @@ img {
   margin: 0;
 }
 
-.field>div {
+.field>a,
+.field>p {
+  display: block;
+  appearance: none;
+  text-decoration: none;
+  color: unset;
   font-weight: 600;
   font-size: 16px;
   margin-top: 7px;
