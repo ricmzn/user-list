@@ -9,17 +9,20 @@ h1 {
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    letter-spacing: 0.2px;
     margin: 56px auto;
     max-width: 580px;
+    font-weight: 600;
+}
+
+body, button, input, select {
+    font-family: "Montserrat", sans-serif;
+    letter-spacing: 0.2px;
 }
 
 button.action {
-    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     font-size: 15px;
+    text-align: center;
     background: black;
     border-radius: 5px;
     border: none;
@@ -28,6 +31,11 @@ button.action {
     cursor: pointer;
     letter-spacing: 0.2px;
     transition: background 100ms ease-in;
+}
+
+button.action:disabled, button.action:disabled:hover {
+    background: #aaa;
+    cursor: default;
 }
 
 button.action:hover {
@@ -42,6 +50,15 @@ button.secondary {
     background: #f7f7f7;
     color: black;
 }
+
+button.secondary:hover {
+    background: #eee;
+}
+
+button.secondary:active {
+    background: #ddd;
+}
+
 
 .flex {
     display: flex;

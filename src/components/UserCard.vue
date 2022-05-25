@@ -9,7 +9,7 @@
       <footer>{{ user.email }}</footer>
     </div>
     <div>
-      <button type="button" title="Editar">
+      <button type="button" title="Editar" @click="() => emit('requestEdit', user!)">
         <img src="../assets/icon-edit.svg">
       </button>
       <button type="button" title="Remover">
@@ -46,8 +46,12 @@
 <script setup lang="ts">
 import type { ReqresUser } from "@/reqres";
 
-defineProps<{
+const { user } = defineProps<{
   user: ReqresUser | null
+}>();
+
+const emit = defineEmits<{
+  (e: "requestEdit", user: ReqresUser): void,
 }>();
 </script>
 
@@ -97,7 +101,7 @@ button {
   transition: filter 100ms ease-in;
 }
 
-button + button {
+button+button {
   margin-left: 12px;
 }
 
